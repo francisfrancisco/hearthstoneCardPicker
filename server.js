@@ -7,8 +7,10 @@ app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
-require("./config/session.js")(app);
-var routes_setter = require('./config/routes.js');
+
+require("./config/session.js")(app); //link session file
+
+const routes_setter = require('./config/routes.js');
 routes_setter(app);
 
 app.listen(port, function() {
