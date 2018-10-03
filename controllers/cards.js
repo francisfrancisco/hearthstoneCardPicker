@@ -16,7 +16,7 @@ module.exports = {
       health: req.body.health,
       description: req.body.description //insert(req.body)
     }).then(() => {
-      res.redirect('/')
+      res.redirect('/');
     })
   },
   new: (req,res) => {
@@ -24,7 +24,9 @@ module.exports = {
     .where('id', req.params.id)
     .then((results) => {
       req.session.current.push(results[0]);
+      req.session.save(()=>{
       res.redirect('/');
+    })
     });
   },
   remove: (req,res) => {
@@ -32,13 +34,17 @@ module.exports = {
 
       if(current.length == 1){
         req.session.current = [];
-        res.redirect('/')
+        req.session.save(()=>{
+          res.redirect('/')
+        })
         return;
       }
     for(let i = 0; i<current.length; i++){
       if(current[i].id == Number(req.params.id)){
         current.splice(i, 1);
-        res.redirect('/');
+        req.session.save(()=>{
+          res.redirect('/');
+        })
         return;
       }
     }
